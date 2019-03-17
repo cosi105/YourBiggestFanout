@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'sinatra/flash'
 require 'nt_models'
 require 'activerecord-import'
 
