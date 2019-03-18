@@ -26,7 +26,6 @@ describe 'NanoTwitter' do
     [@brad, @yang, @pito].each { |u| u.followees << @ari }
     tweet = Tweet.create(author: @ari, body: 'I <3 Scalability')
     post "/new_tweet/#{tweet.id}"
-    sleep(1)
     [@brad, @yang, @pito].each do |u|
       u.timeline_tweets.count.must_equal 1
       u.timeline_tweets.first.must_equal tweet

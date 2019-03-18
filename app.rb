@@ -2,9 +2,8 @@ require 'sinatra'
 require 'nt_models'
 require 'activerecord-import'
 
-set :port, 9494
-
 unless Sinatra::Base.production?
+  set :port, 9494
   require 'pry-byebug'
 end
 
