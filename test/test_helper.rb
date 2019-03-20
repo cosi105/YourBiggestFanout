@@ -32,7 +32,7 @@ describe 'NanoTwitter' do
       t = u.timeline_pieces.first
       t.tweet.must_equal @tweet
       t.tweet_body.must_equal @tweet.body
-      t.tweet_created_on.must_equal @tweet.created_on
+      t.tweet_created_on.to_i.must_equal @tweet.created_on.to_i
       t.tweet_author_handle.must_equal @tweet.author.handle
     end
   end
@@ -45,7 +45,7 @@ describe 'NanoTwitter' do
       t = u.timeline_pieces.first
       t.tweet.must_equal @tweet
       t.tweet_body.must_equal @tweet.body
-      t.tweet_created_on.must_equal @tweet.created_on
+      t.tweet_created_on.to_i.must_equal @tweet.created_on.to_i
       t.tweet_author_handle.must_equal @tweet.author.handle
     end
   end
