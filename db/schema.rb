@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2019_02_26_212737) do
   create_table "follows", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followee_id"
+    t.string "follower_handle"
+    t.string "followee_handle"
   end
 
   create_table "hashtags", force: :cascade do |t|
@@ -32,6 +34,9 @@ ActiveRecord::Schema.define(version: 2019_02_26_212737) do
   create_table "timeline_pieces", force: :cascade do |t|
     t.integer "timeline_owner_id"
     t.integer "tweet_id"
+    t.string "tweet_body"
+    t.datetime "tweet_created_on"
+    t.string "tweet_author_handle"
   end
 
   create_table "tweet_tags", force: :cascade do |t|
@@ -43,6 +48,7 @@ ActiveRecord::Schema.define(version: 2019_02_26_212737) do
     t.string "body"
     t.datetime "created_on"
     t.integer "author_id"
+    t.string "author_handle"
   end
 
   create_table "users", force: :cascade do |t|
