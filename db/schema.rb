@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_27_162334) do
+ActiveRecord::Schema.define(version: 2019_02_26_212737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,9 +20,6 @@ ActiveRecord::Schema.define(version: 2019_03_27_162334) do
     t.integer "followee_id"
     t.string "follower_handle"
     t.string "followee_handle"
-    t.index ["followee_id"], name: "index_follows_on_followee_id"
-    t.index ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
-    t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "hashtags", force: :cascade do |t|
@@ -40,8 +37,6 @@ ActiveRecord::Schema.define(version: 2019_03_27_162334) do
     t.string "tweet_body"
     t.datetime "tweet_created_on"
     t.string "tweet_author_handle"
-    t.index ["timeline_owner_id"], name: "index_timeline_pieces_on_timeline_owner_id"
-    t.index ["tweet_created_on"], name: "index_timeline_pieces_on_tweet_created_on"
   end
 
   create_table "tweet_tags", force: :cascade do |t|
@@ -54,14 +49,12 @@ ActiveRecord::Schema.define(version: 2019_03_27_162334) do
     t.datetime "created_on"
     t.integer "author_id"
     t.string "author_handle"
-    t.index ["author_id"], name: "index_tweets_on_author_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "handle"
     t.string "password_digest"
-    t.index ["handle"], name: "index_users_on_handle", unique: true
   end
 
 end
