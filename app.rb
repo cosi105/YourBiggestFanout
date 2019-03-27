@@ -2,10 +2,7 @@ require 'sinatra'
 require 'nt_models'
 require 'activerecord-import'
 
-unless Sinatra::Base.production?
-  set :port, 9494
-  require 'pry-byebug'
-end
+set :port, 9494 unless Sinatra::Base.production?
 
 post '/new_tweet/:id' do
   t = Tweet.find(params[:id])
