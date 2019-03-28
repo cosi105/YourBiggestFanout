@@ -2,6 +2,7 @@ require 'sinatra'
 require 'nt_models'
 require 'activerecord-import'
 require 'redis'
+require 'open-uri'
 
 set :port, 9494 unless Sinatra::Base.production?
 
