@@ -21,9 +21,9 @@ end
 
 # Adds new Tweet to Follower's Redis timeline cache
 def cache_tweet(follower_id, tweet)
-  timeline_size = REDIS.inc("#{follower_id}:timeline_size") # Update timeline size
+  timeline_size = REDIS.incr("#{follower_id}:timeline_size") # Update timeline size
   REDIS.hmset(                                              # Insert new Tweet
-    "#{tweet.follower_id}:#{timeline_size}",
+    "#{follower_id}:#{timeline_size}",
     'id', tweet.id,
     'body', tweet.body,
     'created_on', tweet.created_on,
@@ -35,8 +35,8 @@ post '/new_tweet/:id' do
   t = Tweet.find(params[:id])
   author = t.author
   mapped = author.follows_to_me.map do |f|
-    [f.follower_id, t.id, t.body, t.created_on, t.author_handle]
     cache_tweet(f.follower_id, t)
+    [f.follower_id, t.id, t.body, t.created_on, t.author_handle]
   end
   import_timeline_pieces(mapped)
   status 200
@@ -46,8 +46,8 @@ post '/new_follower/:followee_id/:follower_id' do
   followee_tweets = Tweet.where(author_id: params[:followee_id])
   follower_id = params[:follower_id]
   mapped = followee_tweets.map do |t|
-    [follower_id, t.id, t.body, t.created_on, t.author_handle]
     cache_tweet(follower_id, t)
+    [follower_id, t.id, t.body, t.created_on, t.author_handle]
   end
   import_timeline_pieces(mapped)
   status 200
