@@ -6,6 +6,12 @@ require 'open-uri'
 
 set :port, 9494 unless Sinatra::Base.production?
 
+unless Sinatra::Base.production?
+  # load local environment variables
+  require 'dotenv'
+  Dotenv.load 'config/local_vars.env'
+end
+
 # Comment this out when using a local Redis instancs
 configure do
   uri = URI.parse(ENV['REDISTOGO_URL'])
