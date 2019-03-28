@@ -21,14 +21,17 @@ end
 
 # Adds new Tweet to Follower's Redis timeline cache
 def cache_tweet(follower_id, tweet)
-  timeline_size = REDIS.incr("#{follower_id}:timeline_size") # Update timeline size
-  REDIS.hmset(                                              # Insert new Tweet
-    "#{follower_id}:#{timeline_size}",
-    'id', tweet.id,
-    'body', tweet.body,
-    'created_on', tweet.created_on,
-    'author_handle', tweet.author_handle
-  )
+  size_key = "#{follower_id}:timeline_size"
+  if REDIS.exists(size_key) # Only update if already cached
+    timeline_size = REDIS.incr(size_key) # Update timeline size
+    REDIS.hmset( # Insert new Tweet
+      "#{follower_id}:#{timeline_size}",
+      'id', tweet.id,
+      'body', tweet.body,
+      'created_on', tweet.created_on,
+      'author_handle', tweet.author_handle
+    )
+  end
 end
 
 post '/new_tweet/:id' do
