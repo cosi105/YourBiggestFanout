@@ -6,18 +6,16 @@ require 'open-uri'
 
 set :port, 9494 unless Sinatra::Base.production?
 
-unless Sinatra::Base.production?
-  # load local environment variables
+if Sinatra::Base.production?
+  configure do
+    uri = URI.parse(ENV['REDISTOGO_URL'])
+    REDIS = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+  end
+else
   require 'dotenv'
   Dotenv.load 'config/local_vars.env'
+  REDIS = Redis.new
 end
-
-# Comment this out when using a local Redis instancs
-configure do
-  uri = URI.parse(ENV['REDISTOGO_URL'])
-  REDIS = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-end
-# REDIS = Redis.new # Uncomment this when using a local Redis instance
 
 # Adds new Tweet to Follower's Redis timeline cache
 def cache_tweet(follower_id, tweet)
