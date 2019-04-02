@@ -30,7 +30,6 @@ def fanout_to_cache(tweet, author)
   author.follows_to_me.each do |f|
     redis_key = "#{f.follower_id}:timeline_html"
     if REDIS.exists(redis_key)
-      puts "\nAdding HTML to #{f.follower_id}\n"
       timeline_html = REDIS.get(redis_key)
       REDIS.set(redis_key, new_html + timeline_html)
     end
